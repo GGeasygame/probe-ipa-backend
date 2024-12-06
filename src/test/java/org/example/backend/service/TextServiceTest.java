@@ -1,7 +1,8 @@
 package org.example.backend.service;
 
 import org.example.backend.domain.Text;
-import org.example.backend.dto.TextDto;
+import org.example.backend.dto.TextRequestDto;
+import org.example.backend.dto.TextResponseDto;
 import org.example.backend.exceptions.ResourceNotFoundException;
 import org.example.backend.mapper.TextMapper;
 import org.example.backend.repository.TextRepository;
@@ -32,7 +33,11 @@ class TextServiceTest {
     @BeforeEach
     void setUp() {
         testee = new TextService(textRepository, textMapper);
-        lenient().when(textRepository.save(any())).then(invocation -> invocation.getArgument(0));
+        lenient().when(textRepository.saveAndFlush(any())).then(invocation -> {
+            Text text = invocation.getArgument(0);
+            text.setId(1);
+            return text;
+        });
     }
 
 
@@ -40,7 +45,7 @@ class TextServiceTest {
     @DisplayName("WHEN no text THEN return empty list")
     void getTexts_no_texts() {
         // act
-        List<TextDto> actual = testee.getTexts();
+        List<TextResponseDto> actual = testee.getTexts();
 
         // assert
         assertEquals(Collections.emptyList(), actual);
@@ -54,7 +59,7 @@ class TextServiceTest {
         when(textRepository.findAll()).thenReturn(expected);
 
         // act
-        List<TextDto> actual = testee.getTexts();
+        List<TextResponseDto> actual = testee.getTexts();
 
         // assert
         assertEquals(textMapper.toDtoList(expected), actual);
@@ -72,7 +77,7 @@ class TextServiceTest {
         when(textRepository.findAll()).thenReturn(expected);
 
         // act
-        List<TextDto> actual = testee.getTexts();
+        List<TextResponseDto> actual = testee.getTexts();
 
         // assert
         assertEquals(textMapper.toDtoList(expected), actual);
@@ -82,36 +87,37 @@ class TextServiceTest {
     @DisplayName("WHEN add text THEN save to repository")
     void saveText() {
         // arrange
-        TextDto text = new TextDto(1, "title", "text");
+        TextRequestDto text = new TextRequestDto("title", "text");
+        Text expected = new Text(1, "title", "text");
 
         // act
         testee.addText(text);
 
         // assert
-        verify(textRepository, times(1)).save(textMapper.toEntity(text));
+        verify(textRepository, times(1)).saveAndFlush(expected);
     }
 
     @Test
     @DisplayName("WHEN updating text THEN save update to repository")
     void updateText() {
         // arrange
-        TextDto text = new TextDto("example title", "example text");
+        TextRequestDto text = new TextRequestDto("example title", "example text");
         Integer id = 1;
         when(textRepository.findById(id)).thenReturn(Optional.of(new Text(1, "title", "text")));
+        Text expected = new Text(1, "example title", "example text");
 
         // act
         testee.updateText(id, text);
 
         // assert
-        text.setId(id);
-        verify(textRepository, times(1)).save(textMapper.toEntity(text));
+        verify(textRepository, times(1)).saveAndFlush(expected);
     }
 
     @Test
     @DisplayName("WHEN updating text THEN save update to repository")
     void updateText_with_no_text_in_db() {
         // arrange
-        TextDto text = new TextDto("title", "text");
+        TextRequestDto text = new TextRequestDto("title", "text");
         Integer id = 1;
         when(textRepository.findById(id)).thenReturn(Optional.empty());
 

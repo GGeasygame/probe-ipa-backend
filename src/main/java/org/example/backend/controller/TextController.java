@@ -2,7 +2,8 @@ package org.example.backend.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.backend.dto.TextDto;
+import org.example.backend.dto.TextRequestDto;
+import org.example.backend.dto.TextResponseDto;
 import org.example.backend.service.TextService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,17 +18,17 @@ public class TextController {
     private final TextService textService;
 
     @GetMapping()
-    public @ResponseBody Iterable<TextDto> getTexts() {
+    public @ResponseBody Iterable<TextResponseDto> getTexts() {
         return textService.getTexts();
     }
 
     @PostMapping()
-    public @ResponseBody TextDto addText(@RequestBody TextDto text) {
+    public @ResponseBody TextResponseDto addText(@RequestBody TextRequestDto text) {
         return textService.addText(text);
     }
 
     @PutMapping("/{id}")
-    public @ResponseBody TextDto updateText(@PathVariable Integer id, @RequestBody TextDto text) {
+    public @ResponseBody TextResponseDto updateText(@PathVariable Integer id, @RequestBody TextRequestDto text) {
         return textService.updateText(id, text);
     }
 }

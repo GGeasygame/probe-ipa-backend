@@ -5,11 +5,12 @@ import lombok.*;
 
 @Builder
 @AllArgsConstructor
-@RequiredArgsConstructor
 @NoArgsConstructor
 @Data
-public class TextDto {
+public class TextResponseDto {
 
+    @NonNull
+    @NotNull(message = "Id must not be null")
     private Integer id;
 
     @NonNull
