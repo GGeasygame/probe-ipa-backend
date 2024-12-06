@@ -21,7 +21,7 @@ public class AnalysisController {
 
     private final AnalysisService analysisService;
 
-    @GetMapping()
+    @PostMapping()
     public List<AnalysisResponseDto> analyseText(@RequestBody @Valid AnalysisRequestDto request) {
         return analysisService.analyse(request);
     }
