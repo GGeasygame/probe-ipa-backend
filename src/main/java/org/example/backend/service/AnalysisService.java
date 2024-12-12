@@ -21,7 +21,7 @@ public class AnalysisService {
         ArrayList<AnalysisResponseDto> analysis = new ArrayList<>();
         String text = analysisRequestDto.getText();
 
-        if (analysisRequestDto.isWithShareOfSymbol()) {
+        if (analysisRequestDto.isWithShareOfSymbols()) {
             analysis.add(analyseWithShareOfSymbol(text));
         }
         if (!analysisRequestDto.getSearchString().isEmpty()) {
@@ -33,16 +33,16 @@ public class AnalysisService {
         return analysis;
     }
 
-    private AnalysisWithShareOfSymbolDto analyseWithShareOfSymbol(String text) {
+    private AnalysisWithShareOfSymbolsDto analyseWithShareOfSymbol(String text) {
         if (text.isEmpty()) {
-            return AnalysisWithShareOfSymbolDto
+            return AnalysisWithShareOfSymbolsDto
                     .builder()
-                    .shareOfSymbol(Map.of())
+                    .shareOfSymbols(Map.of())
                     .build();
         }
 
-        return AnalysisWithShareOfSymbolDto.builder()
-                .shareOfSymbol(computeShareOfSymbols(text))
+        return AnalysisWithShareOfSymbolsDto.builder()
+                .shareOfSymbols(computeShareOfSymbols(text))
                 .build();
     }
 

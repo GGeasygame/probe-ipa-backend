@@ -8,7 +8,7 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class AnalysisWithShareOfSymbolDto implements AnalysisResponseDto {
+public class AnalysisWithShareOfSymbolsDto implements AnalysisResponseDto {
     @NonNull
-    private Map<String, Double> shareOfSymbol;
+    private Map<String, Double> shareOfSymbols;
 }

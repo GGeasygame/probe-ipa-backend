@@ -20,9 +20,9 @@ class AnalysisServiceTest {
         // arrange
         AnalysisRequestDto analysisRequest = AnalysisRequestDto.builder()
                 .text("example text!")
-                .withShareOfSymbol(true).build();
-        AnalysisWithShareOfSymbolDto expected = AnalysisWithShareOfSymbolDto.builder()
-                .shareOfSymbol(Map.of(
+                .withShareOfSymbols(true).build();
+        AnalysisWithShareOfSymbolsDto expected = AnalysisWithShareOfSymbolsDto.builder()
+                .shareOfSymbols(Map.of(
                         "e", 0.23076923076923078,
                         "x", 0.15384615384615385,
                         "a", 0.07692307692307693,
@@ -39,7 +39,7 @@ class AnalysisServiceTest {
 
         // assert
         assertEquals(1, actual.size());
-        assertInstanceOf(AnalysisWithShareOfSymbolDto.class, actual.getFirst());
+        assertInstanceOf(AnalysisWithShareOfSymbolsDto.class, actual.getFirst());
         assertEquals(expected, actual.getFirst());
     }
 
@@ -49,16 +49,16 @@ class AnalysisServiceTest {
         // arrange
         AnalysisRequestDto analysisRequest = AnalysisRequestDto.builder()
                 .text("")
-                .withShareOfSymbol(true).build();
-        AnalysisWithShareOfSymbolDto expected = AnalysisWithShareOfSymbolDto.builder()
-                .shareOfSymbol(Collections.emptyMap()).build();
+                .withShareOfSymbols(true).build();
+        AnalysisWithShareOfSymbolsDto expected = AnalysisWithShareOfSymbolsDto.builder()
+                .shareOfSymbols(Collections.emptyMap()).build();
 
         // act
         List<AnalysisResponseDto> actual = analysisService.analyse(analysisRequest);
 
         // assert
         assertEquals(1, actual.size());
-        assertInstanceOf(AnalysisWithShareOfSymbolDto.class, actual.getFirst());
+        assertInstanceOf(AnalysisWithShareOfSymbolsDto.class, actual.getFirst());
         assertEquals(expected, actual.getFirst());
     }
 

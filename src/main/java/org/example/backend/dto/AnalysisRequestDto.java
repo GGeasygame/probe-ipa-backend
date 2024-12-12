@@ -17,7 +17,7 @@ public class AnalysisRequestDto {
     private String searchString = "";
 
     @Builder.Default
-    private boolean withShareOfSymbol = false;
+    private boolean withShareOfSymbols = false;
 
     @Builder.Default
     private boolean withSameWordAtSentenceStart = false;
